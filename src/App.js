@@ -21,36 +21,54 @@ const YourComponent = () => {
     'Vladimir','Volibear','Warwick','Wukong','Xayah','Xerath','XinZhao','Yasuo','Yone',
     'Yorick','Yuumi','Zac','Zed','Ziggs','Zilean','Zoe','Zyra'
    ];
-   const mythics = [
-    'Crown of the Shattered Queen',
-    'Divine Sunderer',
-     'Duskblade of Draktharr',
-    'Echoes of Helia',
-    ' Eclipse',
-     'Evenshroud',
-     'Everfrost',
-    'Galeforce',
-     'Goredrinker',
-    ' Guinsoos Rageblade',
-    'Heartsteel',
-    ' Hextech Rocketbelt',
-     'Iceborn Gauntlet',
-     'Infinity Edge',
-    'JakSho The Protean',
+   const Mythics = {
+   mage: ['Crown of the Shattered Queen',
+     'Rod of Ages',
      'Liandrys Anguish',
-    'Locket of the Iron Solari',
-    'Ludens Tempest',
-    'Moonstone Renewer',
+     'Ludens Tempest',
+     'Everfrost' ,
+     'Riftmaker' ,
+     'Hextech Rocketbelt',
+     'Night Harvester'
+   ],
+
+   bruiser:[
+    'Divine Sunderer',
+   'Goredrinker',
+   'Stridebreaker',
+   'Trinity Force',
+   'Riftmaker',
+    ],
+  assasin: [
+   'Youmuus Ghostblade',
+   'Duskblade of Draktharr',
+    'Eclipse',
     'Navori Quickblades',
-    'Night Harvester',
+   ],
+   tank: [
+    'Evenshroud',
+    'Heartsteel',
+    'Iceborn Gauntlet', 
+    'JakSho The Protean',
+    'Locket of the Iron Solari',
     'Radiant Virtue',
-    'Riftmaker',
-    'Rod of Ages',
-    'Shurelyas Battlesong',
-    'Stridebreaker',
-    'Trinity Force',
-    'Youmuus Ghostblade'
-   ]
+       ],
+   support: [
+        'Echoes of Helia',
+        'Moonstone Renewer',
+        'Evenshroud',
+        'Shurelyas Battlesong',
+        'Locket of the Iron Solari',
+        'Radiant Virtue',
+       ],
+      marksman: [
+'Galeforce',
+'Guinsoos Rageblade',
+'Infinity Edge',
+'Navori quickblades'
+]
+   }
+
    const items = [
     'Abyssal Mask',
 'Anathemas Chains',
@@ -129,6 +147,7 @@ const YourComponent = () => {
 'Zekes Convergence',
 'Zhonyas Hourglass'
    ]
+
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedMythic, setSelectedMythic] = useState(null);
   const [selectedItems, setSelectedItems] = useState(null);
@@ -140,12 +159,30 @@ const YourComponent = () => {
     const randomCharacter = characters[keys[randomIndex]];
     setSelectedCharacter(randomCharacter);
   }
+  let lastTwentyItems = [];
+
   const selectRandomMythic = () => {
-    const keys = Object.keys(mythics);
-    const randomIndex = Math.floor(Math.random() * keys.length);
-    const randomMythic = mythics[keys[randomIndex]];
-    setSelectedMythic(randomMythic)
+    const keys = Object.keys(Mythics);
+    let randomKeyIndex, randomKey, items, randomItemIndex, randomItem;
+  
+    do {
+      randomKeyIndex = Math.floor(Math.random() * keys.length);
+      randomKey = keys[randomKeyIndex];
+    
+      items = Mythics[randomKey];
+      randomItemIndex = Math.floor(Math.random() * items.length);
+      randomItem = items[randomItemIndex];
+    } while (lastTwentyItems.includes(randomItem));
+  
+    lastTwentyItems.push(randomItem);
+    if (lastTwentyItems.length > 20) {
+      lastTwentyItems.shift();
+    }
+  
+    setSelectedMythic(randomItem);
+    return ("Class:$randomItem")
   }
+
   const getRandomItems = () => {
     const values = Object.values(items);
     const shuffledValues = values.sort(() => 0.5 - Math.random());
@@ -169,8 +206,8 @@ const YourComponent = () => {
       </>
       
     </div>
-  )
-}
+     )
+  }
  
 
-export default YourComponent;
+export default YourComponent
