@@ -180,7 +180,7 @@ const YourComponent = () => {
     }
   
     setSelectedMythic(randomItem);
-    return ("Class:$randomItem")
+    return ("Class:${randomItem")
   }
 
   const getRandomItems = () => {
